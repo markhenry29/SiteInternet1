@@ -36,7 +36,7 @@
 				<p>Avec ses 26 ans, Radis nous inspire en donnant des conseils. En effet, il est notre R&D dans le porno. Il a commencé par être pizzaiolo puis est devenu ingénieur agro-alimentaire. En se tapant une branlette, il a remarqué que l’alimentation pouvait jouer sur la quantité de sperme éjaculé. Il est devenu expert et est le conseiller de l’équipe. Ses compétences en communication permettent également d’exciter les mecs les plus cucks et les meufs les plus frigides. C’est un pervers qui, en équipe, ajoutera sa touche personnelle qui engendra votre jouissance au plus haut point.</p><br />
 
 				<div align="right">
-					<p>Bien à vous.</p>
+					<p>Bien à vous. L'équipe </p>
 					<img src="img/logo/EDP.png" width="200">
 				</div>
 		</div>

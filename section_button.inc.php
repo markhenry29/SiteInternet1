@@ -47,12 +47,13 @@
          ?>
         
     <?php
-        while($nbButtonAffichage > 0)
+        $j = $nbButtonAffichage;
+        while($j > 0 && $nbButtonAffichage != 1)
         {
     ?>
         <li><a class="btn btn-pagination" href="<?php echo $href."page=".$i;?>"><?php echo $i;?></a></li>
     <?php 
-            $nbButtonAffichage--;
+            $j--;
             $i++;
         }
      ?>

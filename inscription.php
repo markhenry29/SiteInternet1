@@ -1,7 +1,8 @@
 <?php 
 	session_start();
 	include('inc/functions.inc.php');
-		
+	$bdd = bdd_connexion();
+
 	$nbCharMin = 4;
 	$nbCharMax = 25;
 	if(isset($_POST['formInscription']))
@@ -104,7 +105,7 @@
 								<label for="pseudo">Pseudo: </label>
 							</td>
 							<td>
-								<input class="form-control form-control-sm col-12" type="text" name="pseudo" placeholder="Pseudo" value="<?php if(isset($pseudo)){ echo $pseudo;} ?>">
+								<input class="form-control form-control-sm col-12" type="text" name="pseudo" placeholder="Mohamed Ali" value="<?php if(isset($pseudo)){ echo $pseudo;} ?>">
 							</td>
 						</tr>
 						<tr>

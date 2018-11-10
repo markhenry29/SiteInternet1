@@ -2,12 +2,24 @@
     include('inc/functions.inc.php');
     $bdd = bdd_connexion();
     /* on affectue une requete sur la totalité des videos et on affiche "$nbvideos" videos. (currently 12) */
-    /* ce include contient le code qui initialise le nombre de page à afficher et le nombre de vidéos. */
-    include('inc/page_offset.inc.php');
-    $all = $bdd->query("SELECT * FROM videos");
-    $req = $bdd->prepare("SELECT * FROM videos LIMIT ".$offset.",".$nbvideos);
+    /* ce code initialise le nombre de page à afficher et le nombre de vidéos. */
+
+    $page = 0;
+    if(isset($_GET['page']) AND $_GET['page'] > 0)
+    {
+        $page = intval($_GET['page']);
+        $page--;
+    }
+
+    $nbvideos = 12;
+    $offset = $nbvideos*$page;
+
+
+    $all = $bdd->query("SELECT * FROM videos WHERE id > 32");
+    $req = $bdd->prepare("SELECT * FROM videos WHERE id > 32 LIMIT ".$offset.",".$nbvideos);
     $req->execute(array());
     $nbButtonAffichage = intval(($all->rowCount() - 1) / $nbvideos) + 1;
+
  ?>
 
 <!doctype html>
@@ -38,6 +50,7 @@
                     <?php 
                         $pathinfo = pathinfo(__FILE__);
                         include('inc/section_button.inc.php');
+                        
                      ?>
                 </section>
             </div>

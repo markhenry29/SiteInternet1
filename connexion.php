@@ -52,11 +52,11 @@
 				<form method="POST" action="">
 					<div class="form-group">	
 						<label>Email: </label>
-						<input class="form-control form-control-sm col-4" type="email" name="mailconnect" placeholder="Mail">
+						<input class="form-control col-xs-12 col-sm-8 col-md-5" type="email" name="mailconnect" placeholder="Mail">
 					</div>
 					<div class="form-group">
 						<label>Mot de passe:</label>
-						<input class="form-control form-control-sm col-4" type="password" name="mdpconnect" placeholder="Mot de passe">
+						<input class="form-control col-xs-12 col-sm-8 col-md-5" type="password" name="mdpconnect" placeholder="Mot de passe">
 					</div>
 					<input class="btn" type="submit" name="formconnect" value="Se connecter !">
 				</form>

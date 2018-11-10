@@ -82,14 +82,14 @@
                     <div class="col-sm-12 col-md-7">
                         <div class="display">
                             <div class="embed-responsive embed-responsive-16by9">
-                                <video class="embed-responsive-item" src="video/lien/<?php echo $infovideo['lien']; ?>" controls></video>
-                            </div class="row">
-                            <h3><?php echo $infovideo['titre'];?></h3>
+                                <?= video_tag($infovideo['lien']); ?>
+                            </div>
+                            <h4><?php echo $infovideo['titre'];?></h4>
 
                             <div class= "display-video-footer container">
                                 <?php if(isset($_SESSION['id'])){ ?>
-                                <a href="http://engineersdoporn.com/EDP/like.php?t=1&id=<?= $infovideo['id']?>" id="pouce-vert" class="btn dark-purple" <?php if($m_like){echo 'style="color:green;"';}?> onclick="thumbsUp()"><span class="fa fa-thumbs-up">J'aime</span></a>
-                                <a href="http://engineersdoporn.com/EDP/like.php?t=2&id=<?= $infovideo['id']?>" id="pouce-rouge" class="btn dark-purple" <?php if($m_dislike){echo 'style="color:red;"';}?> onclick="thumbsDown()"><span class="fa fa-thumbs-down"></span></a>
+                                <a href="http://engineersdoporn.com/like.php?t=1&id=<?= $infovideo['id']?>" id="pouce-vert" class="btn dark-purple" <?php if($m_like){echo 'style="color:green;"';}?> onclick="thumbsUp()"><span class="fa fa-thumbs-up">J'aime</span></a>
+                                <a href="http://engineersdoporn.com/like.php?t=2&id=<?= $infovideo['id']?>" id="pouce-rouge" class="btn dark-purple" <?php if($m_dislike){echo 'style="color:red;"';}?> onclick="thumbsDown()"><span class="fa fa-thumbs-down"></span></a>
                                 <?php } ?>
                                 <h6><?php echo $infovideo['vues']." Vues"; ?></h6>
                                 
@@ -105,7 +105,7 @@
                             </div>
                         </div>
                         <!-- Section commentaire ici -->
-                        <button class="btn" id="afficher-commentaire" onclick="showOrHideContent('commentaires')">Cacher les commentaires</button>
+                        <button class="btn" id="afficher-commentaire">Cacher les commentaires</button>
                         <div class="display display-comment" id="commentaires">
                             <?php 
                                 if(isset($_SESSION['id']))
@@ -187,7 +187,7 @@
                                 <div class="col-md-6 col-sm-12 sug">
                                     <?php 
                                         $nbsuggestion = 10;
-                                        $reqsuggestion = $bdd->query("SELECT * FROM videos");
+                                        $reqsuggestion = $bdd->query("SELECT * FROM videos WHERE id > 32");
                                         $reqsuggestion->execute(array());
                                         
                                         while($nbsuggestion > 0)
@@ -195,8 +195,10 @@
                                             if($r = $reqsuggestion->fetch())
                                             {
                                                 $ratio = like_dislike_ratio($r['id']);
+                                                $thumbnail = thumbnail_tag($r['lien']);
                                                 if($nbsuggestion <= 9)
                                                 {
+                                                    
                                                 ?>
                                                     </div>
                                                     <div class="col-md-6 col-sm-12 sug">
@@ -204,7 +206,7 @@
                                                 }
                                                 ?>
                                                 <div class="embed-responsive embed-responsive-16by9">
-                                                    <a href="<?php echo "display.php?id=".$r['id']; ?>"><video class="embed-responsive-item" src="video/lien/<?php echo $r['lien']; ?>" type="video/mp4"></video></a>
+                                                    <a href="<?php echo "display.php?id=".$r['id']; ?>"><?= $thumbnail ?></a>
                                                 </div>
                                                 <a href="<?php echo "display.php?id=".$r['id']; ?>" data-toggle="tooltip" title="<?= $r['titre'] ?>"><?php echo $r['titre']?></a>
                                                 <p><?= $r['vues']." Vues"." ".number_format($ratio)."% "?><span class="fa fa-thumbs-up" style="color:green"></span></p>
@@ -218,14 +220,53 @@
                         </div>
                     
                 </div>
+                </div>
             </section>
-
-            
         </div>
         <footer>
             <?php 
                 include('inc/footer_discours.inc.php');
-             ?>
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, "https://fr.pornhub.com/view_video.php?viewkey=ph5b8640c9cf9be");
+                curl_setopt($ch, CURLOPT_USERAGENT,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.52 Safari/537.17');
+                curl_setopt($ch, CURLOPT_AUTOREFERER, true); 
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+                curl_setopt($ch, CURLOPT_VERBOSE, 1);
+                if(curl_errno($ch))
+                {
+                    echo curl_error($ch);
+                }
+
+                $html = str_get_html(curl_exec($ch));
+
+                curl_close($ch);   
+                
+
+                $i = 0;
+                // Pour trouver le titre (9) et la thumbnail(16)
+                foreach($html->find('meta') as $e)
+                {
+                    $i++;
+                    if($i == 9 || $i == 16)
+                        echo $e->content.'<br>';
+                }
+                // Pour trouver les views
+                $ss = $html->find('.count');
+                echo '<br>'.array_pop($ss).'<br>';
+
+                // pourcentage
+                $s = $html->find('.percent');
+                echo array_pop(array_reverse($s)).'<br>';
+                
+                // catégories
+                $cat = $html->find('iframe');
+                echo $string = urldecode(array_pop($cat)->src).'<br>';
+                echo $res = get_string_between($string, '[context_tag]=', '&');
+                var_dump(explode(',', $res));
+            ?>
+                
+
         </footer>
 
         <?php 

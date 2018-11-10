@@ -1,0 +1,1 @@
+<a href="<?php echo "display.php?id=".$v; ?>"><video class="embed-responsive-item" src="video/lien/<?php echo $video['lien'];?>" type="video/mp4"></video></a>
